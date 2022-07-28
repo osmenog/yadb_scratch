@@ -14,7 +14,7 @@ def get_confirmation_code(*args, **kwargs):
     ...
 
 
-class SignupSerializer(serializers.ModelSerializer):
+class PrevSignupSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
@@ -38,14 +38,14 @@ class SignupSerializer(serializers.ModelSerializer):
         return username
 
 
-class ALTSignupSerializer(serializers.Serializer):
+class SignupSerializer(serializers.Serializer):
     username = serializers.CharField(required=True)
     email = serializers.EmailField(required=True)
 
     def create(self, validated_data):
         username = validated_data.get('username')
         email = validated_data.get('email')
-        instance, created = User.objects.get_or_create(username=username, email=email)
+        instance, _ = User.objects.get_or_create(username=username, email=email)
         return instance
 
     def validate_username(self, username):
